@@ -8,7 +8,7 @@ describe 'hyperctl', :type => :class do
       it 'should install hyperctl gem' do
         should contain_package('hyperctl').with(
           :ensure   => 'present',
-          :provider => 'gem',
+          :provider => 'gem'
         )
       end
 
@@ -18,7 +18,7 @@ describe 'hyperctl', :type => :class do
           :owner  => 'root',
           :group  => 'root',
           :mode   => '0644',
-          :path   => '/etc/sysconfig/hyperctl',
+          :path   => '/etc/sysconfig/hyperctl'
         )
       end
 
@@ -38,7 +38,7 @@ describe 'hyperctl', :type => :class do
           :owner  => 'root',
           :group  => 'root',
           :mode   => '0755',
-          :path   => '/etc/init.d/hyperctl',
+          :path   => '/etc/init.d/hyperctl'
         )
       end
 
@@ -52,7 +52,7 @@ describe 'hyperctl', :type => :class do
           :ensure     => 'running',
           :hasstatus  => true,
           :hasrestart => true,
-          :enable     => true,
+          :enable     => true
         )
       end
 
