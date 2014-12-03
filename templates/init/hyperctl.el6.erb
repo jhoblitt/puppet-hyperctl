@@ -1,0 +1,88 @@
+#!/bin/sh
+#
+# <%= scope['::hyperctl::prog'] %> hyperctl init script
+#
+# chkconfig:   2345 99 99
+#
+# description: <description, split multiple lines with \
+#              a backslash>
+
+### BEGIN INIT INFO
+# Provides:
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start:
+# Default-Stop:
+# Short-Description:
+# Description:
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+prog='<%= scope['::hyperctl::prog'] %>'
+
+[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+
+start() {
+    echo -n $"Setting ${prog} state to <${HYPERCTL_SET}>: "
+    $prog --${HYPERCTL_SET} --quiet
+    retval=$?
+    if [ $retval -eq 0 ]; then 
+        echo_success
+    else
+        echo_failure
+    fi
+    echo
+    return $retval
+}
+
+restart() {
+    start
+}
+
+reload() {
+    restart
+}
+
+hyperctl_status() {
+    $prog --status --${HYPERCTL_SET}
+    retval=$?
+    if [ $retval -eq 0 ]; then 
+    	echo -n $"${prog} state is <${HYPERCTL_SET}>... "
+    else
+    	echo -n $"${prog} state should be <${HYPERCTL_SET}> but isn't..."
+    fi
+    echo
+    return $retval
+}
+
+hyperctl_status_q() {
+    hyperctl_status >/dev/null 2>&1
+}
+
+
+case "$1" in
+    start)
+        hyperctl_status_q && exit 0
+        $1
+        ;;
+    stop)
+        ;;
+    restart)
+        $1
+        ;;
+    reload)
+        hyperctl_status_q || exit 7
+        $1
+        ;;
+    status)
+        hyperctl_status
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|reload}"
+        exit 2
+esac
+exit $?
