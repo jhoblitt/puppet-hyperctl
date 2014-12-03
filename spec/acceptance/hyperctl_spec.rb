@@ -94,4 +94,46 @@ describe 'hyperctl class' do
       end
     end # enable
   end # default params
-end
+end # hyperctl class
+
+describe 'hyperctl::enable class' do
+  describe 'running puppet code' do
+    pp = <<-EOS
+      include ::hyperctl::enable
+    EOS
+
+    it 'applies the manifest twice with no stderr' do
+      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, :catch_changes => true)
+    end
+  end
+
+  it_behaves_like "hyperctl installed"
+
+  describe file('/etc/sysconfig/hyperctl') do
+    its(:content) do
+      should match 'HYPERCTL_SET="enable"'
+    end
+  end
+end # hyperctl::enable class
+
+describe 'hyperctl::disable class' do
+  describe 'running puppet code' do
+    pp = <<-EOS
+      include ::hyperctl::disable
+    EOS
+
+    it 'applies the manifest twice with no stderr' do
+      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, :catch_changes => true)
+    end
+  end
+
+  it_behaves_like "hyperctl installed"
+
+  describe file('/etc/sysconfig/hyperctl') do
+    its(:content) do
+      should match 'HYPERCTL_SET="disable"'
+    end
+  end
+end # hyperctl::enable class
