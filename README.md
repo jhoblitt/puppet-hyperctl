@@ -19,6 +19,8 @@ Puppet hyperctl Module
 Overview
 --------
 
+Manages the hyperctl utility for enabling/disabling hyperthreading
+
 
 Description
 -----------
@@ -27,12 +29,40 @@ Description
 Usage
 -----
 
+```puppet
+include ::hyperctl
+```
+
+```puppet
+class { '::hyperctl':
+  state => 'enable',
+}
+```
+
+```puppet
+class { '::hyperctl':
+  state => 'disable',
+}
+```
+
+### Convience classes
+
+These classes are simply wrappers largely intended for convience when using an
+ENC.
+
+```puppet
+include ::hyperctl::enable
+```
+```puppet
+include ::hyperctl::disable
+```
 
 Limitations
 -----------
 
 ### Tested Platforms
 
+* el6.x
 
 Versioning
 ----------
@@ -71,3 +101,4 @@ Contributing
 See Also
 --------
 
+* [`hyperctl`](https://github.com/jhoblitt/hyperctl)
