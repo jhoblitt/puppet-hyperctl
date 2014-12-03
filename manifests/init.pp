@@ -5,10 +5,14 @@ class hyperctl(
 ) inherits hyperctl::params {
   validate_re($state, '^enable$|^disable$')
 
+  package { 'hyperctl':
+    ensure   => 'present',
+    provider => 'gem',
+  }
   $prog = 'hyperctl'
 
   file { 'hyperctl-init':
-    ensure  => present,
+    ensure  => 'present',
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
@@ -22,7 +26,7 @@ class hyperctl(
   }
 
   file { 'hyperctl-conf':
-    ensure  => present,
+    ensure  => 'present',
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
@@ -32,9 +36,10 @@ class hyperctl(
   }
 
   service { 'hyperctl':
-    ensure     => running,
+    ensure     => 'running',
     hasstatus  => true,
     hasrestart => true,
     enable     => true,
+    require    => Package['hyperctl'],
   }
 }

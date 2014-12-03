@@ -5,6 +5,13 @@ describe 'hyperctl', :type => :class do
     let(:facts) {{ :osfamily => 'RedHat', :operatingsystemmajrelease => 6 }}
 
     context 'default params' do
+      it 'should install hyperctl gem' do
+        should contain_package('hyperctl').with(
+          :ensure   => 'present',
+          :provider => 'gem',
+        )
+      end
+
       it 'should manage hyperctl conf file' do
         should contain_file('hyperctl-conf').with(
           :ensure => 'present',
@@ -47,6 +54,11 @@ describe 'hyperctl', :type => :class do
           :hasrestart => true,
           :enable     => true,
         )
+      end
+
+      it 'service should require package' do
+        should contain_service('hyperctl').
+          that_requires('Package[hyperctl]')
       end
     end # default params
 
