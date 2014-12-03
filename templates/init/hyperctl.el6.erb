@@ -22,7 +22,7 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-prog='<%= scope['::hyperctl::prog'] %>'
+prog='<%= scope.lookupvar('::hyperctl::prog') %>'
 
 [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
 
