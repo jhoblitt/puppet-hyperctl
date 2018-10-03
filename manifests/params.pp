@@ -17,6 +17,20 @@ class hyperctl::params {
         }
       }
     }
+    'Debian': {
+      case $::operatingsystemmajrelease {
+        '16.04': {
+          $init_path = '/etc/init.d/hyperctl'
+          $init_erb  = "${module_name}/init/hyperctl.1604.erb"
+          $conf_path = '/etc/default/hyperctl'
+          $conf_erb  = "${module_name}/conf/hyperctl.el6.erb"
+        }
+        default: {
+          $platform = "${::operatingsystem} ${::operatingsystemmajrelease}"
+          fail("Module ${module_name} is not supported on ${platform}")
+        }
+      }
+    }
     default: {
       fail("Module ${module_name} is not supported on ${::operatingsystem}")
     }
